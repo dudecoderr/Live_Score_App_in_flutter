@@ -266,7 +266,10 @@ class _HomeScreenState extends State<HomeScreen> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return const DetailsScreen();
+              return DetailsScreen(
+                firstName: firstName,
+                secondName: secondName,
+              );
             },
           ),
         );

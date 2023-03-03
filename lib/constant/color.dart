@@ -7,6 +7,7 @@ const Color kLightGreyColor = Color(0xffbebebe);
 const Color kLightCircleColor = Color(0xfff6f6f6);
 const Color kLightBlueColor = Color(0xFF9aa8b4);
 const Color kLightRedColor = Color(0xffea9885);
+const Color kLightColor = Color(0xffaaadae);
 
 ///images
 
