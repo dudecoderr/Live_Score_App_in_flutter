@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:livescoreapp/constant/color.dart';
@@ -28,6 +29,8 @@ class _EventDetailsState extends State<EventDetails> {
   late VideoPlayerController _videoPlayerController1;
   ChewieController? _chewieController;
   int? bufferDelay;
+  bool fullscreen = false;
+  bool flipScreen = false;
 
   @override
   void initState() {
@@ -44,11 +47,11 @@ class _EventDetailsState extends State<EventDetails> {
   }
 
   List<String> srcs = [
-    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
+    "assets/videos/football.mp4",
   ];
 
   Future<void> initializePlayer() async {
-    _videoPlayerController1 = VideoPlayerController.network(srcs[currPlayIndex])
+    _videoPlayerController1 = VideoPlayerController.asset(srcs[currPlayIndex])
       ..pause();
     await Future.wait([
       _videoPlayerController1.initialize(),
@@ -59,21 +62,18 @@ class _EventDetailsState extends State<EventDetails> {
 
   void _createChewieController() {
     _chewieController = ChewieController(
+      fullScreenByDefault: true,
+      showOptions: true,
+      deviceOrientationsAfterFullScreen: [
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown
+      ],
+      allowFullScreen: true,
+      autoInitialize: true,
       videoPlayerController: _videoPlayerController1,
       autoPlay: false,
-      looping: true,
-      progressIndicatorDelay:
-          bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null,
-      additionalOptions: (context) {
-        return <OptionItem>[
-          // OptionItem(
-          //   onTap: toggleVideo,
-          //   iconData: Icons.live_tv_sharp,
-          //   title: 'Toggle Video Src',
-          // ),
-        ];
-      },
-      hideControlsTimer: const Duration(seconds: 1),
+      looping: false,
+      hideControlsTimer: const Duration(seconds: 10),
     );
   }
 
@@ -139,6 +139,16 @@ class _EventDetailsState extends State<EventDetails> {
     });
   }
 
+  TextEditingController myController = TextEditingController();
+
+  void addItemToList() {
+    setState(() {
+      about.insert(0, myController.text);
+      title.insert(0, "Alvanso Moreno");
+      imgList.insert(0, "assets/images/man2.png");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,13 +179,30 @@ class _EventDetailsState extends State<EventDetails> {
                   SizedBox(
                     height: 35.h,
                   ),
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3.w),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            height: 60.h,
+                            width: 60.h,
+                            decoration: const BoxDecoration(
+                              color: kSkyBlueColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: kWhiteColor,
+                              size: 25.h,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        Container(
                           height: 60.h,
                           width: 60.h,
                           decoration: const BoxDecoration(
@@ -183,41 +210,27 @@ class _EventDetailsState extends State<EventDetails> {
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
-                            Icons.arrow_back,
+                            Icons.share_outlined,
                             color: kWhiteColor,
                             size: 25.h,
                           ),
                         ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        height: 60.h,
-                        width: 60.h,
-                        decoration: const BoxDecoration(
-                          color: kSkyBlueColor,
-                          shape: BoxShape.circle,
+                        Container(
+                          margin: EdgeInsets.only(left: 2.w),
+                          height: 60.h,
+                          width: 60.h,
+                          decoration: const BoxDecoration(
+                            color: kSkyBlueColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.file_download,
+                            color: kWhiteColor,
+                            size: 25.h,
+                          ),
                         ),
-                        child: Icon(
-                          Icons.share_outlined,
-                          color: kWhiteColor,
-                          size: 25.h,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 2.w),
-                        height: 60.h,
-                        width: 60.h,
-                        decoration: const BoxDecoration(
-                          color: kSkyBlueColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.file_download,
-                          color: kWhiteColor,
-                          size: 25.h,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 15.h,
@@ -345,36 +358,67 @@ class _EventDetailsState extends State<EventDetails> {
                             children: [
                               Stack(
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {},
+                                  _chewieController != null &&
+                                          _chewieController!
+                                              .videoPlayerController
+                                              .value
+                                              .isInitialized
+                                      ? AspectRatio(
+                                          aspectRatio: 1.78,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(20.0.r),
+                                                ),
+                                                color: Colors.transparent),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(20.0.r),
+                                              ),
+                                              child: Chewie(
+                                                controller: _chewieController!,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: const [
+                                            Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
+                                          ],
+                                        ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 10.h, left: 10.w),
                                     child: Container(
-                                      height: 150.h,
-                                      width: double.infinity,
+                                      height: 35.h,
+                                      width: 100.w,
                                       decoration: BoxDecoration(
-                                        color: kWhiteColor,
+                                        color: Colors.white.withOpacity(0.5),
                                         borderRadius: BorderRadius.all(
-                                          Radius.circular(12.r),
+                                          Radius.circular(20.r),
                                         ),
                                       ),
-                                      child: Chewie(
-                                        controller: _chewieController!,
+                                      child: Center(
+                                        child: Text(
+                                          "Replay",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Poppins-Medium',
+                                            fontSize: 12.sp,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 40.h),
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.play_circle_sharp,
-                                        color: kBlackColor.withOpacity(0.5),
-                                        size: 60.h,
-                                      ),
-                                    ),
-                                  )
                                 ],
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 4.h),
+                                margin: EdgeInsets.only(top: 3.h),
                                 height: 40.h,
                                 width: 170.w,
                                 decoration: BoxDecoration(
@@ -392,16 +436,16 @@ class _EventDetailsState extends State<EventDetails> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 38.h),
-                                height: 220.h,
+                                margin: EdgeInsets.only(top: 20.h),
+                                height: 200.h,
                                 color: Colors.transparent,
                                 child: ListView.builder(
                                   physics: const BouncingScrollPhysics(),
-                                  itemCount: 4,
+                                  itemCount: title.length,
                                   padding: const EdgeInsets.all(0),
                                   itemBuilder: (context, index) {
                                     return Padding(
-                                      padding: EdgeInsets.only(bottom: 14.h),
+                                      padding: EdgeInsets.only(bottom: 10.h),
                                       child: Row(
                                         children: [
                                           Container(
@@ -495,6 +539,7 @@ class _EventDetailsState extends State<EventDetails> {
                                     width: 284.w,
                                     color: Colors.transparent,
                                     child: TextField(
+                                      controller: myController,
                                       decoration: InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius:
@@ -519,10 +564,16 @@ class _EventDetailsState extends State<EventDetails> {
                                         ),
                                         suffixIcon: Padding(
                                           padding: EdgeInsets.all(8.r),
-                                          child: Image.asset(
-                                            "assets/images/send.png",
-                                            height: 8.h,
-                                            color: kWhiteColor,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              addItemToList();
+                                              myController.clear();
+                                            },
+                                            child: Image.asset(
+                                              "assets/images/send.png",
+                                              height: 8.h,
+                                              color: kWhiteColor,
+                                            ),
                                           ),
                                         ),
                                         filled: true,

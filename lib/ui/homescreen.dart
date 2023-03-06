@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:livescoreapp/constant/color.dart';
 import 'package:livescoreapp/ui/details_screen.dart';
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: 35.h,
+                height: 40.h,
               ),
               Row(
                 children: [
@@ -348,17 +349,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 7.w),
-                      height: 30.h,
-                      width: 30.h,
-                      decoration: const BoxDecoration(
-                          color: kBlackColor, shape: BoxShape.circle),
-                      child: Center(
-                        child: Icon(
-                          Icons.notifications_outlined,
-                          color: kWhiteColor,
-                          size: 20.h,
+                    GestureDetector(
+                      onTap: () {
+                        SystemNavigator.pop();
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 7.w),
+                        height: 30.h,
+                        width: 30.h,
+                        decoration: const BoxDecoration(
+                            color: kBlackColor, shape: BoxShape.circle),
+                        child: Center(
+                          child: Icon(
+                            Icons.notifications_outlined,
+                            color: kWhiteColor,
+                            size: 20.h,
+                          ),
                         ),
                       ),
                     ),

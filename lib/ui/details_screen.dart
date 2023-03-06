@@ -103,13 +103,51 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             SizedBox(
                               height: 35.h,
                             ),
-                            Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Container(
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 3.w),
+                              child: Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      height: 60.h,
+                                      width: 60.h,
+                                      decoration: const BoxDecoration(
+                                        color: kSkyBlueColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.arrow_back,
+                                        color: kWhiteColor,
+                                        size: 25.h,
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Group C",
+                                        style: TextStyle(
+                                          color: kWhiteColor,
+                                          fontFamily: "Poppins-Bold",
+                                          fontSize: 12.sp,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Champion League",
+                                        style: TextStyle(
+                                          color: kSkyBlueColor,
+                                          fontFamily: "Poppins-Bold",
+                                          fontSize: 11.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  Container(
                                     height: 60.h,
                                     width: 60.h,
                                     decoration: const BoxDecoration(
@@ -117,48 +155,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
-                                      Icons.arrow_back,
+                                      Icons.notifications_outlined,
                                       color: kWhiteColor,
                                       size: 25.h,
                                     ),
                                   ),
-                                ),
-                                const Spacer(),
-                                Column(
-                                  children: [
-                                    Text(
-                                      "Group C",
-                                      style: TextStyle(
-                                        color: kWhiteColor,
-                                        fontFamily: "Poppins-Bold",
-                                        fontSize: 12.sp,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Champion League",
-                                      style: TextStyle(
-                                        color: kSkyBlueColor,
-                                        fontFamily: "Poppins-Bold",
-                                        fontSize: 11.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                Container(
-                                  height: 60.h,
-                                  width: 60.h,
-                                  decoration: const BoxDecoration(
-                                    color: kSkyBlueColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    Icons.notifications_outlined,
-                                    color: kWhiteColor,
-                                    size: 25.h,
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             SizedBox(
                               height: 15.h,
