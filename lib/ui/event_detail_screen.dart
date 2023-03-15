@@ -466,7 +466,7 @@ class _EventDetailsState extends State<EventDetails> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(left: 7.w),
+                                            padding: EdgeInsets.only(left: 6.w),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -487,7 +487,7 @@ class _EventDetailsState extends State<EventDetails> {
                                                     color: kWhiteColor,
                                                     fontFamily:
                                                         'Poppins-Medium',
-                                                    fontSize: 12.sp,
+                                                    fontSize: 12.sp,overflow: TextOverflow.clip
                                                   ),
                                                 ),
                                               ],
@@ -495,8 +495,8 @@ class _EventDetailsState extends State<EventDetails> {
                                           ),
                                           const Spacer(),
                                           Container(
-                                            height: 40.h,
-                                            width: 40.h,
+                                            height: 38.h,
+                                            width: 38.h,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(30.r),
@@ -510,11 +510,11 @@ class _EventDetailsState extends State<EventDetails> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 4.w,
+                                            width: 3.w,
                                           ),
                                           Container(
-                                            height: 40.h,
-                                            width: 40.h,
+                                            height: 38.h,
+                                            width: 38.h,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(30.r),
